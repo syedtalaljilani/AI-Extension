@@ -1,7 +1,6 @@
 
 # ME AI Assistant - Chrome Extension
 
-![ME Assistant Demo](https://via.placeholder.com/400x600.png?text=ME+Assistant+Interface)
 
 Your intelligent browsing companion with voice-first interaction and AI-powered capabilities.
 
@@ -88,13 +87,18 @@ Modify `styles.css`:
 
 ## 📂 Project Structure
 ```
-/me-ai-assistant
+me-ai-assistant/
   ├── manifest.json
   ├── popup.html
   ├── styles.css
-  └── content/
-       ├── assistant.js
-       └── injectPermission.js
+  ├── content/
+  │    ├── assistant.js
+  │    └── injectPermission.js
+  └── src/
+       └── pages/
+            └── permission/
+                 ├── index.html
+                 └── requestPermission.js
   
 ```
 
