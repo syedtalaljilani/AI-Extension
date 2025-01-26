@@ -19,7 +19,8 @@
         "src/pages/permission/index.html",
         "src/pages/permission/requestPermission.js"
       ],
-      "matches": ["*://*/*"]
+      "matches": ["*://*/*"],
+      "type": "module"
     }
   ],
   "content_scripts": [

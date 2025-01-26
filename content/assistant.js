@@ -1,7 +1,25 @@
 const voiceButton = document.getElementById('voiceButton');
 const responseDiv = document.getElementById('response');
+const loadingDots = document.querySelector('.loading-dots');
 
 
+async function handleVoiceCommand() {
+    try {
+        loadingDots.style.display = 'flex';
+        responseDiv.style.display = 'none';
+      
+
+        loadingDots.style.display = 'none';
+        responseDiv.style.display = 'block';
+        
+    } catch (error) {
+        loadingDots.style.display = 'none';
+        responseDiv.textContent = "Error processing request";
+        responseDiv.style.display = 'block';
+    }
+}
+
+voiceButton.addEventListener('click', handleVoiceCommand);
 // Initialize Speech Recognition
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
@@ -15,25 +33,25 @@ const performAIQuery = async (query) => {
   try {
     responseDiv.textContent = `Thinking...`;
 
-    const apiKey = '84ed774d3acd4909b2b5b7fb59c9a7f6';  // Replace with your AIML API key
+   const apiKey = '84ed774d3acd4909b2b5b7fb59c9a7f6'; // Replace with your AIML API key
     const baseURL = 'https://api.aimlapi.com/v1/chat/completions'; // AIML API endpoint
 
     // Request body for AIML API
     const body = {
-      model: 'mistralai/Mistral-7B-Instruct-v0.2',  // The model you want to use (change if needed)
+      model: 'mistralai/Mistral-7B-Instruct-v0.2', // The model you want to use (change if needed)
       messages: [
-        { role: 'system', content: 'You are a helpful assistant.' },  // Set system message for context
-        { role: 'user', content: query }  // User query
+        { role: 'system', content: 'You are a helpful assistant.' }, // Set system message for context
+        { role: 'user', content: query } // User query
       ],
-      temperature: 0.7,  // Control the creativity of the response
-      max_tokens: 100,  // Limit the length of the response
+      temperature: 0.7, // Control the creativity of the response
+      max_tokens: 100, // Limit the length of the response
     };
 
     const response = await fetch(baseURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,  // Pass the API key in the Authorization header
+        'Authorization': `Bearer ${apiKey}`, // Pass the API key in the Authorization header
       },
       body: JSON.stringify(body),
     });
@@ -50,10 +68,6 @@ const performAIQuery = async (query) => {
   }
 };
 
-
-
-
-
 // Function to open a website in a new tab
 const openWebsite = (url) => {
   window.open(url, '_blank');
@@ -63,10 +77,17 @@ const openWebsite = (url) => {
 const isValidUrl = (str) => {
   try {
     new URL(str); // Try to create a new URL object
-    return true;  // If no error, it's a valid URL
+    return true; // If no error, it's a valid URL
   } catch (_) {
     return false; // If error, it's not a valid URL
   }
+};
+
+// Function to open a YouTube search for the song
+const playSongOnYouTube = (songName) => {
+  const youtubeSearchURL = `https://www.youtube.com/results?search_query=${encodeURIComponent(songName)}`;
+  window.open(youtubeSearchURL, '_blank');
+  responseDiv.textContent = `Searching YouTube for "${songName}"...`;
 };
 
 // Start Listening for Voice Commands
@@ -74,6 +95,7 @@ voiceButton.addEventListener('click', () => {
   responseDiv.textContent = 'Listening...';
   recognition.start();
 });
+
 
 // Process Voice Commands
 recognition.onresult = (event) => {
@@ -90,11 +112,9 @@ recognition.onresult = (event) => {
   } else if (transcript.startsWith('open')) {
     const input = transcript.replace('open', '').trim();
     if (isValidUrl(input)) {
-      // If it's a valid URL
       openWebsite(input);
       responseDiv.textContent = `Opening the website: ${input}`;
     } else {
-      // If it's a website name
       openWebsite(`https://www.${input}.com`);
       responseDiv.textContent = `Opening ${input}...`;
     }
@@ -106,8 +126,15 @@ recognition.onresult = (event) => {
     } else {
       responseDiv.textContent = 'Please provide a search query for Google.';
     }
+  } else if (transcript.startsWith('youtube')) {
+    const songName = transcript.replace('youtube', '').trim();
+    if (songName) {
+      playSongOnYouTube(songName);
+    } else {
+      responseDiv.textContent = 'Please provide the name of the song you want to play.';
+    }
   } else {
-    responseDiv.textContent = 'I didn\'t catch that. Please say "me" followed by your question, or "open" followed by the website URL or name, or "google" followed by your search query.';
+    responseDiv.textContent = 'I didn\'t catch that. Please say "me" followed by your question, "open" followed by the website URL or name, "google" followed by your search query, or "youtube" followed by the song name.';
   }
 };
 
