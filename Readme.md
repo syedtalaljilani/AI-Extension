@@ -48,8 +48,7 @@ Your intelligent browsing companion with voice-first interaction and AI-powered 
    - Select cloned repository folder
 
 4. **Grant Permissions**
-   - Allow microphone access
-   - Accept browser navigation permissions
+   - Allow microphone access to extension from extension settings
 
 5. **Start Using**
    - Click toolbar icon 🎤
@@ -126,6 +125,9 @@ MIT License - See [LICENSE](LICENSE) for full text
 - [ ] API integration framework
 - [ ] Multi-language support
 
+## Team Mates
+- Syed Talal Jilani 
+- Mehreen Rasheed
 ---
 
 **Need Help?**  
