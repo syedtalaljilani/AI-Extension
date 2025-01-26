@@ -1,6 +1,4 @@
-Here's the complete, polished README incorporating all discussed features and requirements:
 
-```markdown
 # ME AI Assistant - Chrome Extension
 
 ![ME Assistant Demo](https://via.placeholder.com/400x600.png?text=ME+Assistant+Interface)
