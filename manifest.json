@@ -3,9 +3,6 @@
   "version": "1.0",
   "manifest_version": 3,
   "description": "AI Assistant Extension with Microphone Access",
-  "permissions": [
-    "activeTab"       
-  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

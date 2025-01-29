@@ -52,7 +52,9 @@ Your intelligent browsing companion with voice-first interaction and AI-powered 
 
 
 5. **Add API KEY from AIMLAPI.com**
-    -   
+    -  add api key in assistant.js 
+    -  const apiKey = 'Add Your API KEY'; 
+    - inside content folder there is a file name as assistant.js
 
 
 6. **Start Using**

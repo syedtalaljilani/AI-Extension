@@ -114,6 +114,55 @@ h1 {
     transform: translate(-50%, -50%);
 }
 
+.code-block {
+    background: #1e1e1e;
+    border-radius: 8px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: #252526;
+}
+
+.language {
+    color: #9cdcfe;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.copy-button {
+    background: none;
+    border: 1px solid #3e3e42;
+    color: #d4d4d4;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.copy-button:hover {
+    background: #3e3e42;
+}
+
+pre {
+    margin: 0;
+    padding: 16px;
+}
+
+code {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* Include highlight.js for syntax highlighting */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css');
+
 .dot {
     width: 8px;
     height: 8px;

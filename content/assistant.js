@@ -31,41 +31,69 @@ recognition.continuous = false; // Stop after each recognition
 // AI Assistant Logic using Llama (replace with your Llama API endpoint)
 const performAIQuery = async (query) => {
   try {
-    responseDiv.textContent = `Thinking...`;
+      const apiKey = 'Add Your API KEY';
+      const baseURL = 'https://api.aimlapi.com/v1/chat/completions';
 
-   const apiKey = '84ed774d3acd4909b2b5b7fb59c9a7f6'; // Replace with your AIML API key
-    const baseURL = 'https://api.aimlapi.com/v1/chat/completions'; // AIML API endpoint
+      // Modified system message to encourage code formatting
+      const body = {
+          model: 'mistralai/Mistral-7B-Instruct-v0.2',
+          messages: [
+              { 
+                  role: 'system', 
+                  content: 'When providing code, format it in triple backticks with language specification. Be concise and focus on best practices.'
+              },
+              { role: 'user', content: query }
+          ],
+          temperature: 0.5, // Lower temperature for more precise code
+          max_tokens: 300   // Allow longer responses for code
+      };
 
-    // Request body for AIML API
-    const body = {
-      model: 'mistralai/Mistral-7B-Instruct-v0.2', // The model you want to use (change if needed)
-      messages: [
-        { role: 'system', content: 'You are a helpful assistant.' }, // Set system message for context
-        { role: 'user', content: query } // User query
-      ],
-      temperature: 0.7, // Control the creativity of the response
-      max_tokens: 100, // Limit the length of the response
-    };
+      const response = await fetch(baseURL, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify(body),
+      });
 
-    const response = await fetch(baseURL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`, // Pass the API key in the Authorization header
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error?.message || 'Failed to fetch AI response.');
-    }
-
-    const data = await response.json();
-    responseDiv.textContent = `AI says: "${data.choices[0].message.content.trim() || 'I could not understand you.'}"`;
+      const data = await response.json();
+      console.log(data)
+      const responseText = data.choices[0].message.content.trim();
+      responseDiv.innerHTML = formatCodeBlocks(responseText);
+      addCopyButtons();
   } catch (error) {
-    responseDiv.textContent = `Error: Unable to process AI request. ${error.message}`;
+      responseDiv.textContent = `Error: ${error.message}`;
   }
+};
+
+// Format code blocks with syntax highlighting
+const formatCodeBlocks = (text) => {
+  const codeBlockRegex = /```(\w+)?\n([\s\S]+?)```/g;
+  return text.replace(codeBlockRegex, (match, lang, code) => {
+      return `
+          <div class="code-block">
+              <div class="code-header">
+                  <span class="language">${lang || 'code'}</span>
+                  <button class="copy-button">📋 Copy</button>
+              </div>
+              <pre><code class="${lang}">${hljs.highlightAuto(code.trim()).value}</code></pre>
+          </div>
+      `;
+  });
+};
+
+// Add copy functionality
+const addCopyButtons = () => {
+  document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', () => {
+          const code = button.parentElement.nextElementSibling.textContent;
+          navigator.clipboard.writeText(code).then(() => {
+              button.textContent = 'Copied!';
+              setTimeout(() => button.textContent = '📋 Copy', 2000);
+          });
+      });
+  });
 };
 
 // Function to open a website in a new tab
