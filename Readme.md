@@ -50,7 +50,12 @@ Your intelligent browsing companion with voice-first interaction and AI-powered 
 4. **Grant Permissions**
    - Allow microphone access to extension from extension settings
 
-5. **Start Using**
+
+5. **Add API KEY from AIMLAPI.com**
+    -   
+
+
+6. **Start Using**
    - Click toolbar icon 🎤
    - Try: "ME test connection"
 
